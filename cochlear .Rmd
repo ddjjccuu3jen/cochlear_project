@@ -13,18 +13,12 @@ library(ggplot2)
 ```
 
 ```{r}
-raw = read.csv("cochlear.csv")
+raw = read.csv("cochlear2.csv")
 raw2 = raw %>%  clean_names()
 raw2
-unique(raw2$what_country_do_you_reside_in)
-
-raw2 = raw2 %>% rename(
-    country = what_country_do_you_reside_in
-    )
 ```
 
 ```{r}
-raw2
 USA = c("USA", "United States "  , "United States of America", "Usa", "United States", "USA ", "Us" , "United states", "the us", "Maryland, USA", "US", "usa", "United States of America ", "The United States of America", "San Diego, CA USA", "Us ", "America")
 
 AUS = c("Australia", "Australia ")
@@ -39,15 +33,15 @@ None = c("",  "\u7f8e\u570b")
 
 cleaned <- raw2 %>% mutate(country = replace(country, country %in% USA, "United States of America")) %>% mutate(country = replace(country, country %in% AUS, "Australia")) %>% mutate(country = replace(country, country %in% UK, "United Kingdom")) %>% mutate(country = replace(country, country %in% None, NA)) %>% mutate(country = replace(country, country %in% CAN, "Canada")) %>% mutate(country = replace(country, country %in% IND, "India"))
 
-unique(cleaned$country)
-
 p<-ggplot(data=cleaned, aes(x=country)) +
   geom_bar() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 p
 ```
 
 ```{r}
-#cleaned$at_what_age_did_you_receive_your_implant
-boxplot(cleaned$deaf_people_are_just_as_likely_to_become_leaders_as_other_people)
+
+ggplot(cleaned, aes(x=financially_viable, fill = age)) + geom_boxplot()
+ggplot(cleaned, aes(x=financially_viable, fill = country)) + geom_boxplot()
+
 ```
 
